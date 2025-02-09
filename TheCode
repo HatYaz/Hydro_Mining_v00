@@ -1,0 +1,74 @@
+# Please Ref: hatem.yazidi@gmail.com for Q? 
+import tkinter as tk
+from tkinter import messagebox
+
+def calculate_scenario():
+    try:
+        # Retrieve user inputs
+        precipitation = float(entry_precipitation.get())
+        inflows = float(entry_inflows.get())
+        groundwater = float(entry_groundwater.get())
+        evaporation = float(entry_evaporation.get())
+        outflows = float(entry_outflows.get())
+        tds = float(entry_tds.get())
+        ph = float(entry_ph.get())
+
+        # Water balance calculation
+        total_inflows = precipitation + inflows + groundwater
+        total_outflows = evaporation + outflows
+        balance = total_inflows - total_outflows
+        
+        # Water quality scenario
+        quality_status = "Safe" if (tds < 500 and 6.5 <= ph <= 8.5) else "Contaminated"
+        
+        # Display results
+        result_text.set(f"Water Balance: {balance:.2f} m³\nWater Quality: {quality_status}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numerical values.")
+
+# Create GUI window
+root = tk.Tk()
+root.title("Mining Water Balance & Quality Model")
+root.geometry("400x350")
+
+# Input Labels and Entry Fields
+tk.Label(root, text="Precipitation (m³)").pack()
+entry_precipitation = tk.Entry(root)
+entry_precipitation.pack()
+
+tk.Label(root, text="Surface Inflows (m³)").pack()
+entry_inflows = tk.Entry(root)
+entry_inflows.pack()
+
+tk.Label(root, text="Groundwater Inflows (m³)").pack()
+entry_groundwater = tk.Entry(root)
+entry_groundwater.pack()
+
+tk.Label(root, text="Evaporation (m³)").pack()
+entry_evaporation = tk.Entry(root)
+entry_evaporation.pack()
+
+tk.Label(root, text="Surface Outflows (m³)").pack()
+entry_outflows = tk.Entry(root)
+entry_outflows.pack()
+
+# Water Quality Inputs
+tk.Label(root, text="Total Dissolved Solids (mg/L)").pack()
+entry_tds = tk.Entry(root)
+entry_tds.pack()
+
+tk.Label(root, text="pH Level").pack()
+entry_ph = tk.Entry(root)
+entry_ph.pack()
+
+# Button to Calculate
+btn_calculate = tk.Button(root, text="Calculate Scenario", command=calculate_scenario)
+btn_calculate.pack()
+
+# Result Display
+result_text = tk.StringVar()
+result_label = tk.Label(root, textvariable=result_text, font=("Arial", 12), fg="blue")
+result_label.pack()
+
+# Run the GUI application
+root.mainloop()
